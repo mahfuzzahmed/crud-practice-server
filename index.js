@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const port = process.env.PORT || 5000
 const app = express()
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 
 
@@ -37,6 +37,14 @@ async function run() {
             res.send(result)
         })
 
+
+        app.delete('/users/:id', async(req, res)=>{
+            const id = req.params.id
+            console.log('delete this shit from server', id)
+            const query = {_id : new ObjectId(id)}
+            const result = await userList.deleteOne(query)
+            res.send(result)
+        })
         app.post('/users', async (req, res) => {
             const users = req.body
             console.log('new users', users)
